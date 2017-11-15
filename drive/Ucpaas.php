@@ -9,7 +9,7 @@
 namespace xing\sms\drive;
 
 
-class Ucpaas implements \xing\sms\src\SmsInterface
+class Ucpaas implements \xing\sms\src\SmsDriveInterface
 {
 
     public $config;

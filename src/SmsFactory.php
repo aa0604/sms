@@ -25,7 +25,7 @@ class SmsFactory
      * @param $payInstanceName
      * @return \xing\sms\drive\Ucpaas
      */
-    public static function getSms($instanceName)
+    public static function getInstance($instanceName)
     {
         static $class;
         if (isset($class[$instanceName])) return $class[$instanceName];

@@ -11,7 +11,7 @@ namespace xing\sms\yii;
 use yii\base\Component;
 use xing\sms\src\SmsFactory;
 
-class Sms extends Component implements \xing\sms\src\SmsInterface, \xing\sms\src\SmsFrame
+class Sms extends Component implements \xing\sms\src\SmsInterface
 {
 
     public $ucpaas;
@@ -20,6 +20,7 @@ class Sms extends Component implements \xing\sms\src\SmsInterface, \xing\sms\src
     private $driveName;
     private $verifyCode;
     private $expireTime = 600;
+    private $mobile;
 
     public function init()
     {
@@ -32,29 +33,36 @@ class Sms extends Component implements \xing\sms\src\SmsInterface, \xing\sms\src
         }
     }
 
+
+    public function setMobile($mobile)
+    {
+        $this->mobile = $mobile;
+        return $this;
+    }
+
     /**
      * @return \xing\sms\drive\Ucpaas
      */
-    public function getSms()
+    public function getInstance()
     {
-        return SmsFactory::getSms($this->driveName)->config($this->config);
+        return SmsFactory::getInstance($this->driveName)->config($this->config);
     }
 
     public function config($config){}
 
-    public function sendText($mobile, $content)
+    public function sendText($content)
     {
-        return $this->getSms()->sendText($mobile, $content);
+        return $this->getInstance()->sendText($this->mobile, $content);
     }
 
-    public function sendTextCode($mobile, $code)
+    public function sendTextCode($code)
     {
-        return $this->getSms()->sendTextCode($mobile, $code);
+        return $this->getInstance()->sendTextCode($this->mobile, $code);
     }
 
-    public function sendSoundCode($mobile, $code)
+    public function sendSoundCode($code)
     {
-        return $this->getSms()->sendSoundCode($mobile, $code);
+        return $this->getInstance()->sendSoundCode($this->mobile, $code);
     }
 
     public function createCode($len = 4)
@@ -66,13 +74,13 @@ class Sms extends Component implements \xing\sms\src\SmsInterface, \xing\sms\src
 
     public function getCode()
     {
-        $key = 'smsCode:'. \Yii::$app->request->userIP;
+        $key = 'smsCode:'. $this->mobile;
         return \Yii::$app->cache->get($key);
     }
 
     public function saveCode()
     {
-        $key = 'smsCode:'. \Yii::$app->request->userIP;
+        $key = 'smsCode:'. $this->mobile;
         return \Yii::$app->cache->set($key, $this->verifyCode, $this->expireTime);
     }
 

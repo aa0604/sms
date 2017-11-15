@@ -1,9 +1,10 @@
 <?php
 /**
+ * 在框架下使用的接口
  * Created by PhpStorm.
  * User: xing.chen
- * Date: 2017/8/24
- * Time: 21:52
+ * Date: 2017/8/26
+ * Time: 10:23
  */
 
 namespace xing\sms\src;
@@ -11,9 +12,32 @@ namespace xing\sms\src;
 
 interface SmsInterface
 {
-    public function config($config);
-    public function sendText($mobile, $content);
-    public function sendTextCode($mobile, $code);
-    public function sendSoundCode($mobile, $code);
+    public function setMobile($mobile);
+    /**
+     * 生成验证码
+     * @param int $len
+     * @return string
+     */
+    public function createCode($len = 4);
+    /**
+     * 读取保存的验证码
+     * @return mixed
+     */
+    public function getCode();
 
+    /**
+     * 保存验证码
+     * @return bool
+     */
+    public function saveCode();
+    /**
+     * 检查验证码
+     * @param $code
+     * @return bool
+     */
+    public function checkCode($code);
+
+    public function sendText($content);
+    public function sendTextCode($code);
+    public function sendSoundCode($code);
 }
