@@ -30,6 +30,12 @@ interface SmsInterface
      * @return bool
      */
     public function saveCode();
+
+    /**
+     * 清除保存的验证码
+     * @return mixed
+     */
+    public function clearCode();
     /**
      * 检查验证码
      * @param $code

@@ -22,6 +22,8 @@ class Sms extends Component implements \xing\sms\src\SmsInterface
     private $expireTime = 600;
     private $mobile;
 
+    private $key = 'smsCode:';
+
     public function init()
     {
         parent::init();
@@ -74,14 +76,23 @@ class Sms extends Component implements \xing\sms\src\SmsInterface
 
     public function getCode()
     {
-        $key = 'smsCode:'. $this->mobile;
-        return \Yii::$app->cache->get($key);
+        return \Yii::$app->cache->get($this->key());
     }
 
     public function saveCode()
     {
-        $key = 'smsCode:'. $this->mobile;
+        $key = $this->key();
         return \Yii::$app->cache->set($key, $this->verifyCode, $this->expireTime);
+    }
+
+    public function clearCode()
+    {
+        return \Yii::$app->cache->delete($this->key());
+    }
+
+    private function key()
+    {
+        return $this->key. $this->mobile;
     }
 
     public function checkCode($code)
