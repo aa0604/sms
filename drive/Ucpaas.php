@@ -44,7 +44,10 @@ class Ucpaas implements \xing\sms\src\SmsDriveInterface
             )
         );
         $data = $this->send($this->getUrl('/Messages/templateSMS'), $data);
-        return !empty($data) ? $data['respCode'] == '000000' : false;
+        if (!isset($data['respCode'])) throw new \Exception('访问短信接口失败：无返回状态码');
+        if ($data['respCode'] == 105147) throw new \Exception('同一手机号今天发送次数达到上限');
+        if ($data['respCode'] != '000000') throw new \Exception('短信发送失败：' . $data['respCode']);
+        return true;
     }
 
     public function sendText($mobile, $content)
