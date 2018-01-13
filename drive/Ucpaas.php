@@ -44,9 +44,6 @@ class Ucpaas implements \xing\sms\src\SmsDriveInterface
             )
         );
         $data = $this->send($this->getUrl('/Messages/templateSMS'), $data);
-        if (!isset($data['respCode'])) throw new \Exception('访问短信接口失败：无返回状态码');
-        if ($data['respCode'] == 105147) throw new \Exception('同一手机号今天发送次数达到上限');
-        if ($data['respCode'] != '000000') throw new \Exception('短信发送失败：' . $data['respCode']);
         return true;
     }
 
@@ -55,6 +52,32 @@ class Ucpaas implements \xing\sms\src\SmsDriveInterface
 
         return true;
     }
+
+    /**
+     * 发送模板消息
+     * @param $mobile
+     * @param $templateConfig
+     * @param array $params
+     * @return bool
+     * @throws \Exception
+     */
+    public function sendTemplateSms($mobile, $templateConfig, array $params = [])
+    {
+        if (empty($mobile)) throw new \Exception('手机号为空');
+        if (empty($templateConfig)) throw new \Exception('模板配置为空');
+
+        $data = array(
+            'templateSMS' => array(
+                'appId'		=> $templateConfig['appId'],
+                'templateId'=> $templateConfig['tplid'],
+                'to'		=> $mobile,
+                'param'		=> implode(',', $params),
+            )
+        );
+        $this->send($this->getUrl('/Messages/templateSMS'), $data);
+        return true;
+    }
+
     public function sendSoundCode($mobile, $code)
     {
 
@@ -104,7 +127,11 @@ class Ucpaas implements \xing\sms\src\SmsDriveInterface
         $this->httpCode = curl_getinfo($ch,CURLINFO_HTTP_CODE);	# 返回状态码
         curl_close($ch);
         $r = json_decode($this->html,1);
-        return is_array($r) ? $r['resp'] : $this->html;
+        $data = is_array($r) ? $r['resp'] : $this->html;
 
+        if (!isset($data['respCode'])) throw new \Exception('访问短信接口失败：无返回状态码');
+        if ($data['respCode'] == 105147) throw new \Exception('同一手机号今天发送次数达到上限');
+        if ($data['respCode'] != '000000') throw new \Exception('短信发送失败：' . $data['respCode']);
+        return $data;
     }
 }
