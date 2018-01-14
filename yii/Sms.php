@@ -74,6 +74,22 @@ class Sms extends Component implements \xing\sms\src\SmsInterface
         return $this->verifyCode;
     }
 
+
+    /**
+     * 发送模板消息
+     * @param $templateConfig
+     * @param array $params
+     * @return bool
+     * @throws \Exception
+     */
+    public function sendTemplateSms($templateConfig, array $params = [])
+    {
+        if (empty($this->mobile)) throw new \Exception('手机号为空');
+        if (empty($templateConfig)) throw new \Exception('模板配置为空');
+
+        return $this->getInstance()->sendTemplateSms($this->mobile, $templateConfig, $params);
+        return true;
+    }
     public function getCode()
     {
         return \Yii::$app->cache->get($this->key());
