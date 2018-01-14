@@ -1,6 +1,6 @@
 {
     "name": "xing.chen/sms",
-    "description": "短信驱动 目前支持云之讯 采用工厂模式，接口标准开发，支持yii框架Component配置使用",
+    "description": "短信驱动 目前支持云之讯 采用工厂模式，接口标准开发，可独立使用，支持yii框架Component配置使用",
     "license": "mit",
     "authors": [
         {
@@ -13,7 +13,10 @@
     },
     "autoload": {
         "psr-4": {
-            "xing\\sms\\": "src"
+            "xing\\sms\\": "",
+            "xing\\sms\\drive": "drive",
+            "xing\\sms\\yii": "yii",
+            "xing\\sms\\src": "src",
         }
     }
 }
