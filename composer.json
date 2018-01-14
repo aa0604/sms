@@ -13,10 +13,10 @@
     },
     "autoload": {
         "psr-4": {
-            "xing\\sms\\": "",
             "xing\\sms\\drive": "drive",
             "xing\\sms\\yii": "yii",
-            "xing\\sms\\src": "src"
+            "xing\\sms\\src": "src",
+            "xing\\sms\\": ""
         }
     }
 }
