@@ -130,22 +130,10 @@ class Ucpaas implements \xing\sms\src\SmsDriveInterface
         $r = json_decode($this->html,1);
         $data = is_array($r) ? $r['resp'] : $this->html;
 
-        if (!isset($data['respCode'])) {
-            $this->errorMessage = '访问短信接口失败：无返回状态码';
-            return false;
-        }
-        if ($data['respCode'] == 105147) {
-            $this->errorMessage = '同一手机号今天发送次数达到上限';
-            return false;
-        }
-        if ($data['respCode'] != '000000') {
-            $this->errorMessage = '短信发送失败：' . $data['respCode'];
-            return false;
-        }
-        if ($data['respCode'] == '100015') {
-            $this->errorMessage = '请输入标准的国内手机号码';
-            return false;
-        }
+        if (!isset($data['respCode'])) throw new \Exception('访问短信接口失败：无返回状态码');
+        if ($data['respCode'] == 105147) throw new \Exception('同一手机号今天发送次数达到上限');
+        if ($data['respCode'] != '000000') throw new \Exception('短信发送失败：' . $data['respCode']);
+        if ($data['respCode'] == '100015') throw new \Exception('请输入标准的国内手机号码');
         return $data;
     }
 }
