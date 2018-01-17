@@ -142,7 +142,7 @@ class Ucpaas implements \xing\sms\src\SmsDriveInterface
             $this->errorMessage = '短信发送失败：' . $data['respCode'];
             return false;
         }
-        if ($data['respCode'] != '100015') {
+        if ($data['respCode'] == '100015') {
             $this->errorMessage = '请输入标准的国内手机号码';
             return false;
         }
