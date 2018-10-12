@@ -19,8 +19,16 @@ class Sms extends Component implements \xing\sms\src\SmsInterface
     private $config;
     private $driveName;
     private $verifyCode;
-    private $expireTime = 600;
+    /**
+     * @var int 过期时间
+     */
+    public $expireTime = 600;
+
     private $mobile;
+    /**
+     * @var int 验证码默认长度
+     */
+    public $defaultLength = 6;
 
     private $key = 'smsCode:';
 
@@ -67,8 +75,9 @@ class Sms extends Component implements \xing\sms\src\SmsInterface
         return $this->getInstance()->sendSoundCode($this->mobile, $code);
     }
 
-    public function createCode($len = 4)
+    public function createCode($len = 0)
     {
+        empty($len) && $len = $this->defaultLength;
         for ($i = 1; $i <= $len; $i++) $this->verifyCode .= (string) rand(0,9);
         $this->saveCode();
         return $this->verifyCode;
