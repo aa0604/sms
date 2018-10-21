@@ -19,6 +19,7 @@ class SmsFactory
 {
     private static $drive = [
         'ucpaas' => '\xing\sms\drive\Ucpaas',
+        'Ali' => '\xing\sms\drive\Ali',
     ];
     /**
      * 返回单例

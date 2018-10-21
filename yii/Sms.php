@@ -8,6 +8,7 @@
 
 namespace xing\sms\yii;
 
+
 use yii\base\Component;
 use xing\sms\src\SmsFactory;
 
@@ -15,32 +16,19 @@ class Sms extends Component implements \xing\sms\src\SmsInterface
 {
 
     public $ucpaas;
+    public $Ali;
 
-    private $config;
-    private $driveName;
+    public $config;
+    public $driveName = 'ucpaas';
     private $verifyCode;
-    /**
-     * @var int 过期时间
-     */
-    public $expireTime = 600;
-
+    private $expireTime = 600;
     private $mobile;
-    /**
-     * @var int 验证码默认长度
-     */
-    public $defaultLength = 6;
 
     private $key = 'smsCode:';
 
     public function init()
     {
         parent::init();
-        foreach ($this as $k => $v) {
-            $this->config = $v;
-            $this->driveName = $k;
-            isset($v['expireTime']) && $this->expireTime = $v['expireTime'];
-            break;
-        }
     }
 
 
@@ -51,7 +39,7 @@ class Sms extends Component implements \xing\sms\src\SmsInterface
     }
 
     /**
-     * @return \xing\sms\drive\Ucpaas
+     * @return \xing\sms\drive\Ucpaas|\xing\sms\drive\Ali
      */
     public function getInstance()
     {
@@ -75,9 +63,8 @@ class Sms extends Component implements \xing\sms\src\SmsInterface
         return $this->getInstance()->sendSoundCode($this->mobile, $code);
     }
 
-    public function createCode($len = 0)
+    public function createCode($len = 4)
     {
-        empty($len) && $len = $this->defaultLength;
         for ($i = 1; $i <= $len; $i++) $this->verifyCode .= (string) rand(0,9);
         $this->saveCode();
         return $this->verifyCode;

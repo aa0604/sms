@@ -11,7 +11,14 @@
 ### 要求
 1、如果你使用yii2驱动，需要开启配置cache
 
-### 单独直接使用示例
+### 阿里云使用示例
+```php
+<?php
+
+?>
+```
+
+
 ```php
 <?php
 \xing\sms\drive::config(['accountSid' => 'accountSid',
