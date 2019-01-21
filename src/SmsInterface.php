@@ -43,7 +43,4 @@ interface SmsInterface
      */
     public function checkCode($code);
 
-    public function sendText($content);
-    public function sendTextCode($code);
-    public function sendSoundCode($code);
 }

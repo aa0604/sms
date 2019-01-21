@@ -18,13 +18,14 @@ namespace xing\sms\src;
 class SmsFactory
 {
     private static $drive = [
-        'ucpaas' => '\xing\sms\drive\Ucpaas',
         'Ali' => '\xing\sms\drive\Ali',
+        'ucpaas' => '\xing\sms\drive\Ucpaas',
+        'ManDao' => '\xing\sms\drive\ManDao',
     ];
     /**
      * 返回单例
      * @param $payInstanceName
-     * @return \xing\sms\drive\Ucpaas
+     * @return \xing\sms\drive\Ali|\xing\sms\drive\Ucpaas|\xing\sms\drive\ManDao
      */
     public static function getInstance($instanceName)
     {

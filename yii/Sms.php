@@ -19,7 +19,7 @@ class Sms extends Component implements \xing\sms\src\SmsInterface
     public $Ali;
 
     public $config;
-    public $driveName = 'ucpaas';
+    public $driveName = '';
     private $verifyCode;
     private $expireTime = 600;
     private $mobile;
@@ -38,9 +38,6 @@ class Sms extends Component implements \xing\sms\src\SmsInterface
         return $this;
     }
 
-    /**
-     * @return \xing\sms\drive\Ucpaas|\xing\sms\drive\Ali
-     */
     public function getInstance()
     {
         return SmsFactory::getInstance($this->driveName)->config($this->config);
@@ -112,4 +109,8 @@ class Sms extends Component implements \xing\sms\src\SmsInterface
         return $this->getCode() == $code;
     }
 
+    public function sendBatchText(array $mobiles, $content)
+    {
+        return $this->getInstance()->sendBatchText($mobiles, $content);
+    }
 }

@@ -88,6 +88,11 @@ class Ali implements \xing\sms\src\SmsDriveInterface
         return true;
     }
 
+    public function sendBatchText(array $mobiles, $content)
+    {
+        return $this->sendText(implode(',', $mobiles), $content);
+    }
+
     /**
      * 取得AcsClient
      *
@@ -101,9 +106,9 @@ class Ali implements \xing\sms\src\SmsDriveInterface
         $domain = "dysmsapi.aliyuncs.com";
 
         // TODO 此处需要替换成开发者自己的AK (https://ak-console.aliyun.com/)
-        $accessKeyId = $this->config['AccessKeyID'] ?? ''; // AccessKeyId
+        $accessKeyId = $this->config['accessKeyID'] ?? ''; // AccessKeyId
 
-        $accessKeySecret = $this->config['AccessKeySecret'] ?? 'AccessKeySecret'; // AccessKeySecret
+        $accessKeySecret = $this->config['accessKeySecret'] ?? ''; // AccessKeySecret
 
         // 暂时不支持多Region
         $region = "cn-hangzhou";

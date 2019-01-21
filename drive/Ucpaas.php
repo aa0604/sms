@@ -85,6 +85,11 @@ class Ucpaas implements \xing\sms\src\SmsDriveInterface
         return true;
     }
 
+    public function sendBatchText(array $mobiles, $content)
+    {
+        return $this->sendText(implode(',', $mobiles), $content);
+    }
+
     /**
      *  获取应用完整网址
      */
@@ -93,7 +98,7 @@ class Ucpaas implements \xing\sms\src\SmsDriveInterface
         $this->time = date('YmdHis',time() + 7200);
         $url = $this->base_url.$this->SoftVersion.'Accounts/'.$this->config['accountSid'].$url;
 
-        $url .=  '?sig='.strtoupper(md5($this->config['accountSid'].$this->config['Token'].$this->time));
+        $url .=  '?sig='.strtoupper(md5($this->config['accountSid'].$this->config['token'].$this->time));
         return $url;
     }
 
