@@ -61,6 +61,11 @@ class ManDao implements SmsDriveInterface
         return $this->sendText(implode(',', $mobiles), $content);
     }
 
+    public function getResult()
+    {
+        return $this->result;
+    }
+
     private function send($url, $data)
     {
         $curl = curl_init(); // 启动一个CURL会话

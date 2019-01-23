@@ -20,6 +20,7 @@ class Ucpaas implements \xing\sms\src\SmsDriveInterface
     public $html;
     public $httpCode;
     public $errorMessage = '';
+    public $result;
 
     public function config($config)
     {
@@ -75,7 +76,7 @@ class Ucpaas implements \xing\sms\src\SmsDriveInterface
                 'param'		=> implode(',', $params),
             )
         );
-        $data = $this->send($this->getUrl('/Messages/templateSMS'), $data);
+        $data = $this->result = $this->send($this->getUrl('/Messages/templateSMS'), $data);
         return $data['respCode'] == '000000';
     }
 
@@ -88,6 +89,11 @@ class Ucpaas implements \xing\sms\src\SmsDriveInterface
     public function sendBatchText(array $mobiles, $content)
     {
         return $this->sendText(implode(',', $mobiles), $content);
+    }
+
+    public function getResult()
+    {
+        return $this->result;
     }
 
     /**

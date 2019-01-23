@@ -25,6 +25,7 @@ class Ali implements \xing\sms\src\SmsDriveInterface
     public $config;
     public $Ali;
     static $acsClient = null;
+    public $result;
 
     public function config($config)
     {
@@ -69,7 +70,7 @@ class Ali implements \xing\sms\src\SmsDriveInterface
 
 
         // 发起访问请求
-        $acsResponse = $this->getAcsClient()->getAcsResponse($request);
+        $acsResponse = $this->result = $this->getAcsClient()->getAcsResponse($request);
 
         if ($acsResponse->Code != 'OK')
             throw new \Exception('短信接口调用返回错误信息：' .$acsResponse->Message . 'code:'.$acsResponse->Code);
@@ -91,6 +92,11 @@ class Ali implements \xing\sms\src\SmsDriveInterface
     public function sendBatchText(array $mobiles, $content)
     {
         return $this->sendText(implode(',', $mobiles), $content);
+    }
+
+    public function getResult()
+    {
+        return $this->result;
     }
 
     /**

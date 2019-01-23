@@ -43,4 +43,6 @@ interface SmsInterface
      */
     public function checkCode($code);
 
+    public function getResult();
+
 }

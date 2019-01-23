@@ -16,5 +16,6 @@ interface SmsDriveInterface
     public function sendTextCode($mobile, $code);
     public function sendSoundCode($mobile, $code);
     public function sendBatchText(array $mobiles, $content);
+    public function getResult();
 
 }

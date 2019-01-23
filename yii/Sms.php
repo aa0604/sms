@@ -108,6 +108,10 @@ class Sms extends Component implements \xing\sms\src\SmsInterface
     {
         return $this->getCode() == $code;
     }
+    public function getResult()
+    {
+        return $this->getInstance()->getResult();
+    }
 
     public function sendBatchText(array $mobiles, $content)
     {
