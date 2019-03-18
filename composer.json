@@ -1,13 +1,7 @@
 {
     "name": "xing.chen/sms",
-    "description": "短信驱动 目前支持云之讯 采用工厂模式，接口标准开发，可独立使用，支持yii框架Component配置使用",
+    "description": "短信支持阿里大鱼、云之讯、漫道，可不依赖框架运行，支持Yii2框架",
     "license": "mit",
-    "authors": [
-        {
-            "name": "chen xing",
-            "email": "877349686@qq.com"
-        }
-    ],
     "require": {
         "php": ">=7.0.0"
     },
