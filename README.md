@@ -26,14 +26,14 @@
 ```php
 <?php
 //  发送验证码
-\xing\sms\src\SmsFactory::getInstance('服务商驱动名')->config(/*服务商驱动配置*/)->sendTextCode('手机号', '验证码');
+\xing\sms\src\SmsFactory::getInstance('Ali或Ucpaas或ManDao')->config($config)->sendTextCode('手机号', '验证码');
 //  发送模板短信
-\xing\sms\src\SmsFactory::getInstance('服务商驱动名')->config(/*服务商驱动配置*/)->sendText('手机号', '内容或模板id');
+\xing\sms\src\SmsFactory::getInstance('Ali或Ucpaas或ManDao')->config($config)->sendText('手机号', '内容或模板id');
 ```
 
 ### 服务商驱动名及配置
 注意驱动名称需要区分大小写
-阿里云： Ali
+阿里云配置： Ali
 ```php
 <?php
 $config = [
@@ -45,7 +45,7 @@ $config = [
     'codeTemplate' => '短信模板id',
 ];
 ```
-云之讯：Ucpaas
+云之讯配置：Ucpaas
 ```php
 <?php
 $config = [
@@ -58,7 +58,7 @@ $config = [
 ]];
 ```
 
-漫道：ManDao
+漫道配置：ManDao
 ```php
 <?php
 $config = [
@@ -68,14 +68,14 @@ $config = [
 ```
 
 ### yii2配置和使用示例
-需要相应的服务商驱动和配置可以随意切换
+使用哪个驱动就写哪个驱动的配置，这样可以实现随意切换
 ```php
 <?php
 'components' => [
     'sms' => [
             'class' => 'xing\sms\yii\Sms',
             'driveName' => '服务商驱动名',
-            'config' => [], // 服务商驱动配置
+            'config' => $config, // 服务商驱动配置
         ]
     ];
 
