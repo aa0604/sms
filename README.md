@@ -39,8 +39,8 @@
 $config = [
     'accessKeyID' => 'accountSid',
     'accessKeySecret' => 'accessKeySecret',
-    // 必填，设置签名名称，应严格按"签名名称"填写，请参考: https://dysms.console.aliyun.com/dysms.htm#/develop/sign
-    'signName' => '签名',
+    // 必填，设置中文签名名称，应严格按"签名名称"填写，请参考: （短信->国内消息）https://dysms.console.aliyun.com/dysms.htm?spm=5176.2020520101.aliyun_sidebar.10.3b9c4df5bLOmra#/domestic/text/sign
+    'signName' => '中文或英文签名',
     // 请自行根据业务动态设置模板id或写死在配置
     'codeTemplate' => '短信模板id',
 ];
