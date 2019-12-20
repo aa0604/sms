@@ -96,7 +96,8 @@ $config = [
     'templateTextCode' => [
       'tplid' => '短信模板id',
       'appId' => '应用id',
-    ]
+    ],
+    'soundAppId' => '语音通知appId',
 ];
 ```
 
