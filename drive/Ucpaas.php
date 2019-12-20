@@ -68,14 +68,14 @@ class Ucpaas implements \xing\sms\src\SmsDriveInterface
         if (empty($mobile)) throw new \Exception('手机号为空');
         if (empty($templateConfig)) throw new \Exception('模板配置为空');
 
-        $data = array(
-            'templateSMS' => array(
+        $data = [
+            'templateSMS' => [
                 'appId'		=> $templateConfig['appId'],
                 'templateId'=> $templateConfig['tplid'],
                 'to'		=> $mobile,
                 'param'		=> implode(',', $params),
-            )
-        );
+            ]
+        ];
         $data = $this->result = $this->send($this->getUrl('/Messages/templateSMS'), $data);
         return $data['respCode'] == '000000';
     }
@@ -83,7 +83,19 @@ class Ucpaas implements \xing\sms\src\SmsDriveInterface
     public function sendSoundCode($mobile, $code)
     {
 
-        return true;
+        $url = $this->getUrl('/Calls/voiceCode');
+
+        $post = [
+            'voiceCode' => [
+                'appId'		=> $this->config['templateTextCode']['appId'],
+                'verifyCode'=> $code,
+                'to'		=> $mobile,
+                #'displayNum'=> 1,			//显示号码
+            ]
+        ];
+
+        $data = $this->send($url, $post);
+        return $data['respCode'] == '000000';
     }
 
     public function sendBatchText(array $mobiles, $content)

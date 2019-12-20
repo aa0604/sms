@@ -16,6 +16,11 @@ use Aliyun\Api\Sms\Request\V20170525\SendSmsRequest;
 use Aliyun\Api\Sms\Request\V20170525\SendBatchSmsRequest;
 use Aliyun\Api\Sms\Request\V20170525\QuerySendDetailsRequest;
 
+// 声音
+use AlibabaCloud\Client\AlibabaCloud;
+use AlibabaCloud\Client\Exception\ClientException;
+use AlibabaCloud\Client\Exception\ServerException;
+
 // 加载区域结点配置
 Config::load();
 
@@ -89,6 +94,30 @@ class Ali implements \xing\sms\src\SmsDriveInterface
         return true;
     }
 
+    public function sendSound($mogile, $templateId, $params)
+    {
+
+        AlibabaCloud::accessKeyClient($this->config['accessKeyID'], $this->config['accessKeySecret'])
+            ->regionId($this->config['region'])
+            ->asDefaultClient();
+        $result = AlibabaCloud::rpc()
+            ->product('Dyvmsapi')
+            // ->scheme('https') // https | http
+            ->version('2017-05-25')
+            ->action('QueryRobotInfoList')
+            ->method('POST')
+            ->host('dyvmsapi.aliyuncs.com')
+            ->options([
+                'query' => [
+                    'RegionId' => "cn-hangzhou",
+                    'CalledShowNumber' => "号码1",
+                    'CalledNumber' => $mobile,
+                    'VoiceCode' => $templateId,
+                ],
+            ])
+            ->request();
+    }
+
     public function sendBatchText(array $mobiles, $content)
     {
         return $this->sendText(implode(',', $mobiles), $content);
@@ -117,10 +146,10 @@ class Ali implements \xing\sms\src\SmsDriveInterface
         $accessKeySecret = $this->config['accessKeySecret'] ?? ''; // AccessKeySecret
 
         // 暂时不支持多Region
-        $region = "cn-hangzhou";
+        $region = $this->config['region'] ?? "cn-hangzhou";
 
         // 服务结点
-        $endPointName = "cn-hangzhou";
+        $endPointName = $this->config['region'] ?? "cn-hangzhou";
 
 
         if(static::$acsClient == null) {
