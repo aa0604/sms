@@ -14,8 +14,8 @@ class Ucpaas implements \xing\sms\src\SmsDriveInterface
 
     public $config;
 
-    private $base_url = 'https://api.ucpaas.com/';
-    private $SoftVersion = '2014-06-30/';	# 版本号
+    private $base_url = 'https://open.ucpaas.com/';
+    private $SoftVersion = '2017-06-30/';	# 版本号
     private $time;
     public $html;
     public $httpCode;
@@ -45,7 +45,7 @@ class Ucpaas implements \xing\sms\src\SmsDriveInterface
                 'param'		=> $code,
             )
         );
-        $data = $this->send($this->getUrl('/Messages/templateSMS'), $data);
+        $data = $this->send($this->getUrl('/ol/sms/sendsms'), $data);
         return $data['respCode'] == '000000';
     }
 
@@ -83,14 +83,16 @@ class Ucpaas implements \xing\sms\src\SmsDriveInterface
     public function sendSoundCode($mobile, $code)
     {
 
-        $url = $this->getUrl('/Calls/voiceCode');
+        $this->base_url = 'http://message.ucpaas.com/';
+        $url = $this->getUrl('/Calls/voiceVerify');
 
         $post = [
-            'voiceCode' => [
-                'appId'		=> $this->config['templateTextCode']['appId'],
-                'verifyCode'=> $code,
+            'voiceVerify' => [
+                'appId'		=> $this->config['soundAppId'],
+                'captchaCode'=> $code,
                 'to'		=> $mobile,
-                #'displayNum'=> 1,			//显示号码
+                'playTimes' => '3',
+//                'displayNum'=> 13667898805,			//显示号码
             ]
         ];
 
@@ -113,7 +115,7 @@ class Ucpaas implements \xing\sms\src\SmsDriveInterface
      */
     private function getUrl($url) {
         if (empty($this->config)) throw new \Exception('没有配置');
-        $this->time = date('YmdHis',time() + 7200);
+        $this->time = date('YmdHis');
         $url = $this->base_url.$this->SoftVersion.'Accounts/'.$this->config['accountSid'].$url;
 
         $url .=  '?sig='.strtoupper(md5($this->config['accountSid'].$this->config['token'].$this->time));
@@ -157,6 +159,7 @@ class Ucpaas implements \xing\sms\src\SmsDriveInterface
         if ($data['respCode'] == 105147) throw new \Exception('同一手机号今天发送次数达到上限');
         if ($data['respCode'] != '000000') throw new \Exception('短信发送失败：' . $data['respCode']);
         if ($data['respCode'] == '100015') throw new \Exception('请输入标准的国内手机号码');
+        if ($data['respCode'] == '101106') throw new \Exception('time过期');
         return $data;
     }
 }
